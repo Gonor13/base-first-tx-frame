@@ -1,10 +1,16 @@
-﻿import { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Base First TX Frame',
+  description: 'Mint your first Base transaction as NFT',
+  openGraph: {
+    title: 'Base First TX Frame',
+    description: 'Mint your first Base transaction as NFT',
+    images: ['https://placehold.co/600x400/000000/FFFFFF.png'],
+  },
   other: {
     'fc:frame': 'vNext',
-    'fc:frame:image': 'https://base-first-tx-frame.vercel.app/og-image.png',
+    'fc:frame:image': 'https://placehold.co/600x400/000000/FFFFFF.png',
     'fc:frame:input:text': 'Enter Base address (0x...)',
     'fc:frame:button:1': '🚀 Find First TX',
     'fc:frame:button:1:action': 'post',
@@ -17,8 +23,9 @@ export default function Home() {
     <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
       <h1>Base First TX Frame</h1>
       <p>Open in Warpcast to mint your first Base transaction as NFT</p>
+      <p style={{ fontSize: '12px', color: '#666' }}>
+        This is a Farcaster Frame. The interactive elements work in Warpcast.
+      </p>
     </div>
   )
 }
-
-
