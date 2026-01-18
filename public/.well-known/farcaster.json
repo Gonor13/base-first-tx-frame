@@ -1,0 +1,19 @@
+{
+  "accountAssociation": {
+    "header": "eyJmaWQiOjEsInR5cGUiOiJjdXN0b2R5Iiwia2V5IjoiMHgwMDExNTM3NDI3MjE4Njk4MmM5OWY4NWU3NGVlZDFkMjAwODgxNDgwIn0",
+    "payload": "eyJkb21haW4iOiJiYXNlLWZpcnN0LXR4LWZyYW1lLnZlcmNlbC5hcHAifQ",
+    "signature": "MHhiMTk4ZDEzM2FkYTUyNWU2NjQ1ZGU1ZjE4M2UwMjgxNzE3ZDVlYzk2ZTZlNTI5NWFmNmMwNDc1YjVjM2IzYjVmN2YwYjNhYjJkMjAzZWI2NDg2ZGIwNjA0OWJjNzkxNDQ4N2IyYTRhN2RjYjFmZTYyNjhkNjlkZjU4NzA3OGU5"
+  },
+  "frame": {
+    "version": "next",
+    "name": "Base First TX Frame",
+    "iconUrl": "https://base-first-tx-frame.vercel.app/icon.svg",
+    "homeUrl": "https://base-first-tx-frame.vercel.app",
+    "imageUrl": "https://base-first-tx-frame.vercel.app/og-image.png",
+    "buttonTitle": "Find First TX",
+    "splashImageUrl": "https://base-first-tx-frame.vercel.app/og-image.png",
+    "splashBackgroundColor": "#000000",
+    "webhookUrl": "https://base-first-tx-frame.vercel.app/api/frame"
+  }
+}
+
