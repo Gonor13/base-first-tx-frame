@@ -1,7 +1,7 @@
 ﻿import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(request: NextRequest) {
-  const baseUrl = "https://base-first-tx-frame-27p5.vercel.app"
+  const baseUrl = "https://base-first-tx-frame.vercel.app"
   
   try {
     const data = await request.json()
@@ -37,5 +37,6 @@ export async function POST(request: NextRequest) {
 
 // GET запросы на /api/frame просто редиректят на главную
 export async function GET() {
-  return NextResponse.redirect("https://base-first-tx-frame-27p5.vercel.app")
+  return NextResponse.redirect("https://base-first-tx-frame.vercel.app")
 }
+
