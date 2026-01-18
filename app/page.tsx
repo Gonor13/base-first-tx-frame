@@ -1,97 +1,160 @@
 ﻿"use client"
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { MiniAppSDK } from '@farcaster/mini-apps-sdk'
-import type { Metadata } from 'next'
-
-// Мета-теги для Frame (работают и для Mini App)
-export const metadata: Metadata = {
-  title: 'Base First TX Frame',
-  description: 'Mint your first Base transaction as NFT',
-  openGraph: {
-    title: 'Base First TX Frame',
-    description: 'Mint your first Base transaction as NFT',
-    images: ['https://base-first-tx-frame.vercel.app/og-image.svg'],
-  },
-  other: {
-    'fc:frame': 'vNext',
-    'fc:frame:image': 'https://base-first-tx-frame.vercel.app/og-image.svg',
-    'fc:frame:input:text': 'Enter Base address (0x...)',
-    'fc:frame:button:1': '🚀 Find First TX',
-    'fc:frame:button:1:action': 'post',
-    'fc:frame:post_url': 'https://base-first-tx-frame.vercel.app/api/frame',
-  },
-}
 
 export default function Home() {
+  const [sdk, setSdk] = useState(null)
+  const [isReady, setIsReady] = useState(false)
+
   useEffect(() => {
-    // Инициализация Mini App
     const initializeMiniApp = async () => {
       try {
-        const sdk = new MiniAppSDK()
-        await sdk.actions.ready()
-        console.log('✅ Mini App ready!')
+        const sdkInstance = new MiniAppSDK()
+        setSdk(sdkInstance)
         
-        // Можно добавить логику Mini App здесь
-        sdk.on('frameAction', (data) => {
-          console.log('Frame action received:', data)
+        // ОБЯЗАТЕЛЬНО вызываем ready()
+        await sdkInstance.actions.ready()
+        setIsReady(true)
+        console.log('✅ Mini App SDK ready!')
+        
+        // Подписываемся на события
+        sdkInstance.on('frameAction', (data) => {
+          console.log('Frame action:', data)
         })
+        
+        // Получаем контекст
+        const context = await sdkInstance.getContext()
+        console.log('Context:', context)
+        
       } catch (error) {
-        console.error('Mini App SDK error:', error)
+        console.error('❌ Mini App SDK error:', error)
       }
     }
-    
+
     initializeMiniApp()
   }, [])
   
   return (
-    <div style={{ 
-      padding: '20px', 
+    <div style={{
+      padding: '20px',
       fontFamily: 'sans-serif',
       maxWidth: '600px',
-      margin: '0 auto'
+      margin: '0 auto',
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      color: 'white'
     }}>
       <h1>Base First TX Frame</h1>
-      <p>Mini App + Frame in one!</p>
       
-      <div style={{ 
-        background: '#f5f5f5', 
-        padding: '15px', 
-        borderRadius: '10px',
+      <div style={{
+        background: 'rgba(255,255,255,0.1)',
+        padding: '20px',
+        borderRadius: '15px',
+        margin: '20px 0',
+        backdropFilter: 'blur(10px)'
+      }}>
+        {isReady ? (
+          <>
+            <h3>✅ Mini App работает!</h3>
+            <p>SDK инициализирован в Warpcast</p>
+            <button
+              onClick={() => alert('Mini App кнопка работает!')}
+              style={{
+                padding: '12px 24px',
+                background: '#00D395',
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                marginTop: '15px'
+              }}
+            >
+              Тест кнопки Mini App
+            </button>
+          </>
+        ) : (
+          <>
+            <h3>⏳ Загрузка Mini App...</h3>
+            <p>Инициализируем SDK в Warpcast</p>
+            <div style={{ 
+              width: '100%', 
+              height: '4px', 
+              background: 'rgba(255,255,255,0.2)', 
+              marginTop: '15px',
+              borderRadius: '2px'
+            }}>
+              <div style={{
+                width: '70%',
+                height: '100%',
+                background: '#00D395',
+                borderRadius: '2px',
+                animation: 'loading 1.5s infinite'
+              }}></div>
+            </div>
+          </>
+        )}
+      </div>
+      
+      <div style={{
+        background: 'rgba(255,255,255,0.1)',
+        padding: '20px',
+        borderRadius: '15px',
         margin: '20px 0'
       }}>
-        <h3>How it works:</h3>
-        <ol>
-          <li>Enter your Base address (0x...)</li>
-          <li>Find your first transaction on Base</li>
-          <li>Mint it as NFT (coming soon)</li>
+        <h3>Как использовать:</h3>
+        <ol style={{ lineHeight: '1.8' }}>
+          <li><strong>Как Mini App</strong>: Открой в Warpcast → Mini Apps</li>
+          <li><strong>Как Frame</strong>: Поделись ссылкой <code>https://base-first-tx-frame.vercel.app/frame</code> в касте</li>
+          <li>Введи Base адрес (0x...)</li>
+          <li>Найди свою первую транзакцию</li>
+          <li>Сминть её как NFT (скоро!)</li>
         </ol>
       </div>
       
-      <div style={{ 
-        background: '#e8f5e9', 
-        padding: '15px', 
-        borderRadius: '10px',
-        margin: '20px 0'
+      <div style={{
+        display: 'flex',
+        gap: '10px',
+        marginTop: '20px'
       }}>
-        <p><strong>📱 As Mini App:</strong> Open in Warpcast Mini Apps</p>
-        <p><strong>🖼️ As Frame:</strong> Share as interactive post</p>
+        <a
+          href="https://warpcast.com/~/developers/frames"
+          target="_blank"
+          style={{
+            padding: '10px 20px',
+            background: '#0052FF',
+            color: 'white',
+            textDecoration: 'none',
+            borderRadius: '8px',
+            flex: 1,
+            textAlign: 'center'
+          }}
+        >
+          Проверить Frame
+        </a>
+        <a
+          href="https://base-first-tx-frame.vercel.app/frame"
+          style={{
+            padding: '10px 20px',
+            background: '#8B5CF6',
+            color: 'white',
+            textDecoration: 'none',
+            borderRadius: '8px',
+            flex: 1,
+            textAlign: 'center'
+          }}
+        >
+          Открыть Frame
+        </a>
       </div>
       
-      <button 
-        onClick={() => alert('Mini App button clicked!')}
-        style={{
-          padding: '10px 20px',
-          background: '#0052FF',
-          color: 'white',
-          border: 'none',
-          borderRadius: '5px',
-          cursor: 'pointer',
-          fontSize: '16px'
-        }}
-      >
-        Test Mini App Button
-      </button>
+      <style jsx>{`
+        @keyframes loading {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(200%); }
+        }
+      `}</style>
     </div>
   )
 }

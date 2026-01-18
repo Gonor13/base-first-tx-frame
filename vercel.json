@@ -9,7 +9,7 @@
   ],
   "headers": [
     {
-      "source": "/(.*)",
+      "source": "/.well-known/farcaster.json",
       "headers": [
         { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
       ]
