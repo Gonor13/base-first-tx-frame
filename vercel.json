@@ -2,9 +2,17 @@
   "redirects": [
     {
       "source": "/.well-known/farcaster.json",
-      "destination": "https://api.farcaster.xyz/miniapps/hosted-manifest/019bd17f-213f-a7da-df77-471fe0594b29",
+      "destination": "https://api.farcaster.xyz/miniapps/hosted-manifest/019bd1df-6f2e-f289-dc4c-1fc3cb1eeeb3",
       "permanent": false,
       "statusCode": 307
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+      ]
     }
   ]
 }
