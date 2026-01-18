@@ -1,19 +1,17 @@
-{
+﻿{
   "accountAssociation": {
-    "header": "eyJmaWQiOjEsInR5cGUiOiJjdXN0b2R5Iiwia2V5IjoiMHgwMDExNTM3NDI3MjE4Njk4MmM5OWY4NWU3NGVlZDFkMjAwODgxNDgwIn0",
+    "header": "eyJmaWQiOjMzODQ1MSwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDc4NDRENDM0NzMzOTM1OTRENWQwM2NkZDUzRDU0RDdGY0RmMzk5RTUifQ",
     "payload": "eyJkb21haW4iOiJiYXNlLWZpcnN0LXR4LWZyYW1lLnZlcmNlbC5hcHAifQ",
-    "signature": "MHhiMTk4ZDEzM2FkYTUyNWU2NjQ1ZGU1ZjE4M2UwMjgxNzE3ZDVlYzk2ZTZlNTI5NWFmNmMwNDc1YjVjM2IzYjVmN2YwYjNhYjJkMjAzZWI2NDg2ZGIwNjA0OWJjNzkxNDQ4N2IyYTRhN2RjYjFmZTYyNjhkNjlkZjU4NzA3OGU5"
+    "signature": "AtLoO4/sK7NZ+H5MH1GPOh7fZHlCJud1sRAU3NJMYOkvWjn1IwJ8aYDeC/YUu5z5GUva078lo1LkdkJc6a+40xw="
   },
   "frame": {
     "version": "next",
     "name": "Base First TX Frame",
     "iconUrl": "https://base-first-tx-frame.vercel.app/icon.svg",
     "homeUrl": "https://base-first-tx-frame.vercel.app",
-    "imageUrl": "https://base-first-tx-frame.vercel.app/og-image.png",
+    "imageUrl": "https://placehold.co/600x400/000000/FFFFFF.png",
     "buttonTitle": "Find First TX",
-    "splashImageUrl": "https://base-first-tx-frame.vercel.app/og-image.png",
-    "splashBackgroundColor": "#000000",
-    "webhookUrl": "https://base-first-tx-frame.vercel.app/api/frame"
+    "splashImageUrl": "https://placehold.co/600x400/000000/FFFFFF.png",
+    "splashBackgroundColor": "#000000"
   }
 }
-
