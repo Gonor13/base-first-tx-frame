@@ -1,68 +1,75 @@
 ﻿import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
-  const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3000";
+  const baseUrl = "https://base-first-tx-frame-27p5.vercel.app";
   
-  return NextResponse.json({
-    type: "frame",
-    frame: {
-      version: "next",
-      image: `${baseUrl}/og-image.png`,
-      input: {
-        text: "Enter Base address (0x...)"
-      },
-      buttons: [
-        {
-          label: "Find First TX",
-          action: "post"
-        }
-      ],
-      postUrl: `${baseUrl}/api/frame`
-    }
+  const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta property="fc:frame" content="vNext" />
+  <meta property="fc:frame:image" content="${baseUrl}/og-image.png" />
+  <meta property="fc:frame:input:text" content="Enter Base address (0x...)" />
+  <meta property="fc:frame:button:1" content="🚀 Find First TX" />
+  <meta property="fc:frame:button:1:action" content="post" />
+  <meta property="fc:frame:post_url" content="${baseUrl}/api/frame" />
+  <meta property="og:image" content="${baseUrl}/og-image.png" />
+  <meta property="og:title" content="Base First TX Frame" />
+  <title>Base First TX Frame</title>
+</head>
+<body>
+  <h1>Base First TX Frame</h1>
+  <p>Find your first Base transaction and mint as NFT</p>
+</body>
+</html>
+  `;
+
+  return new NextResponse(html, {
+    headers: {
+      "Content-Type": "text/html",
+      "Cache-Control": "max-age=0",
+    },
   });
 }
 
 export async function POST(request: NextRequest) {
-  const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3000";
+  const baseUrl = "https://base-first-tx-frame-27p5.vercel.app";
   
   try {
     const data = await request.json();
     const buttonIndex = data.untrustedData?.buttonIndex;
     const inputText = data.untrustedData?.inputText || "";
 
-    if (buttonIndex === 1 && inputText) {
-      return NextResponse.json({
-        type: "frame",
-        frame: {
-          version: "next",
-          image: `${baseUrl}/og-image.png`,
-          buttons: [
-            {
-              label: "Try Another",
-              action: "post"
-            }
-          ],
-          postUrl: `${baseUrl}/api/frame`
-        }
-      });
-    }
+    // Простой ответ для теста
+    const responseHtml = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta property="fc:frame" content="vNext" />
+  <meta property="fc:frame:image" content="${baseUrl}/og-image.png" />
+  <meta property="fc:frame:button:1" content="Try Again" />
+  <meta property="fc:frame:button:1:action" content="post" />
+  <meta property="fc:frame:post_url" content="${baseUrl}/api/frame" />
+  <meta property="og:image" content="${baseUrl}/og-image.png" />
+  <title>Base First TX Frame - Result</title>
+</head>
+<body>
+  <h1>Received: ${inputText || "no input"}</h1>
+</body>
+</html>
+    `;
 
-    return GET();
-    
+    return new NextResponse(responseHtml, {
+      headers: {
+        "Content-Type": "text/html",
+      },
+    });
+
   } catch (error) {
-    return NextResponse.json({
-      type: "frame",
-      frame: {
-        version: "next",
-        image: `${baseUrl}/og-image.png`,
-        buttons: [
-          {
-            label: "Restart",
-            action: "post"
-          }
-        ],
-        postUrl: `${baseUrl}/api/frame`
-      }
+    return new NextResponse(html, {
+      headers: {
+        "Content-Type": "text/html",
+      },
     });
   }
 }
