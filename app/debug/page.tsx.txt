@@ -1,0 +1,131 @@
+'use client';
+
+import { useState } from 'react';
+
+export default function DebugPage() {
+  const [address, setAddress] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState<any>(null);
+  const [error, setError] = useState('');
+
+  const fetchData = async (endpoint: string) => {
+    if (!address) {
+      setError('Please enter an address');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch(`/api/transaction?address=${address}&action=${endpoint}`);
+      const result = await response.json();
+      
+      if (response.ok) {
+        setData(result);
+      } else {
+        setError(result.error || 'Failed to fetch data');
+      }
+    } catch (err) {
+      setError('Network error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen p-8 bg-gray-50">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold mb-6">Base Transaction API Debug</h1>
+        
+        <div className="mb-6">
+          <label className="block mb-2">Base Address (0x...)</label>
+          <input
+            type="text"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            placeholder="0x..."
+            className="w-full p-3 border rounded"
+          />
+        </div>
+
+        <div className="grid grid-cols-3 gap-4 mb-8">
+          <button
+            onClick={() => fetchData('first')}
+            disabled={loading}
+            className="p-3 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
+          >
+            Get First TX
+          </button>
+          <button
+            onClick={() => fetchData('balance')}
+            disabled={loading}
+            className="p-3 bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50"
+          >
+            Get Balance
+          </button>
+          <button
+            onClick={() => fetchData('all')}
+            disabled={loading}
+            className="p-3 bg-purple-500 text-white rounded hover:bg-purple-600 disabled:opacity-50"
+          >
+            Get All TX (10)
+          </button>
+        </div>
+
+        {loading && (
+          <div className="text-center py-4">
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+          </div>
+        )}
+
+        {error && (
+          <div className="p-4 bg-red-100 text-red-700 rounded mb-4">
+            {error}
+          </div>
+        )}
+
+        {data && (
+          <div className="bg-white p-6 rounded-lg shadow">
+            <h2 className="text-xl font-bold mb-4">API Response</h2>
+            <pre className="bg-gray-100 p-4 rounded overflow-auto">
+              {JSON.stringify(data, null, 2)}
+            </pre>
+            
+            {data.firstTransaction && (
+              <div className="mt-6 p-4 border rounded">
+                <h3 className="font-bold mb-2">First Transaction Summary:</h3>
+                <p><strong>Hash:</strong> {data.firstTransaction.hash}</p>
+                <p><strong>Block:</strong> #{data.firstTransaction.blockNumber}</p>
+                <p><strong>Date:</strong> {new Date(data.firstTransaction.timestamp).toLocaleString()}</p>
+                <p><strong>Value:</strong> {data.firstTransaction.value} ETH</p>
+                <p><strong>Method:</strong> {data.firstTransaction.method}</p>
+                <p><strong>Status:</strong> <span className={data.firstTransaction.status === 'success' ? 'text-green-600' : 'text-red-600'}>
+                  {data.firstTransaction.status.toUpperCase()}
+                </span></p>
+                <a 
+                  href={`https://basescan.org/tx/${data.firstTransaction.hash}`}
+                  target="_blank"
+                  className="text-blue-500 hover:underline mt-2 inline-block"
+                >
+                  View on Basescan →
+                </a>
+              </div>
+            )}
+          </div>
+        )}
+
+        <div className="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded">
+          <h3 className="font-bold mb-2">API Endpoints:</h3>
+          <ul className="list-disc pl-5 space-y-1">
+            <li><code>GET /api/transaction?address=0x...&action=first</code> - First transaction</li>
+            <li><code>GET /api/transaction?address=0x...&action=balance</code> - Current balance</li>
+            <li><code>GET /api/transaction?address=0x...&action=all&limit=10</code> - All transactions</li>
+            <li><code>POST /api/frame</code> - Farcaster Frame endpoint</li>
+            <li><code>GET /api/og?address=0x...</code> - OG Image generator</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}
